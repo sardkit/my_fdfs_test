@@ -22,6 +22,16 @@ int main(int argc, char *argv[])
     else {
         printf("set fail\n");
     }
+	
+	char getval[128] = {0};
+	ret = rop_get_string(conn, "foo", getval);
+    if (ret == 0) 
+	{
+        printf("get succ!\n result is: %s\n", getval);
+    }
+    else {
+        printf("get fail\n");
+    }
 
 
     //释放数据库

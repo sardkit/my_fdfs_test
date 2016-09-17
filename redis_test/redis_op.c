@@ -1031,11 +1031,11 @@ END:
 
 /* -------------------------------------------*/
 /**
- * @brief  set 插入的stirng 命令
+ * @brief  set插入的stirng 命令
  *
- * @param conn 连接句柄
+ * @param conn 			连接句柄
  * @param key  
- * @param value string 类型的value
+ * @param value 		tring 类型的value
  *
  * @returns   
  *          0 succ, -1 fail
@@ -1053,6 +1053,39 @@ int rop_set_string(redisContext *conn, char *key, char *value)
     }
 
     //printf("%s\n", reply->str);
+
+END:
+
+	freeReplyObject(reply);
+    return retn;
+}
+
+/* -------------------------------------------*/
+/**
+ * @brief  get获取stirng 命令
+ *
+ * @param conn 		连接句柄
+ * @param key  
+ * @param value 	string 类型的value
+ *
+ * @returns   
+ *          0 succ, -1 fail
+ */
+/* -------------------------------------------*/
+int rop_get_string(redisContext *conn, char *key, char *value)
+{
+	int retn = 0;
+	redisReply *reply = NULL;
+	reply = redisCommand(conn, "get %s", key);
+    //rop_test_reply_type(reply);
+	
+    if (reply->str == NULL) {
+        retn = -1;
+        goto END;
+    }
+	
+	strncpy(value, reply->str, (size_t)reply->len);
+	value[(size_t)reply->len] = '\0';
 
 END:
 

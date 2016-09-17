@@ -181,17 +181,31 @@ int rop_set_key_lifecycle(redisContext *conn, char *key, time_t delete_time);
 
 /* -------------------------------------------*/
 /**
- * @brief  set 插入的stirng 命令
+ * @brief  set插入的stirng 命令
  *
- * @param conn 连接句柄
+ * @param conn 		连接句柄
  * @param key  
- * @param value string 类型的value
+ * @param value 	string 类型的value
  *
  * @returns   
  *          0 succ, -1 fail
  */
 /* -------------------------------------------*/
 int rop_set_string(redisContext *conn, char *key, char *value);
+
+/* -------------------------------------------*/
+/**
+ * @brief  get获取stirng 命令
+ *
+ * @param conn 		连接句柄
+ * @param key  
+ * @param value 	string 类型的value
+ *
+ * @returns   
+ *          0 succ, -1 fail
+ */
+/* -------------------------------------------*/
+int rop_get_string(redisContext *conn, char *key, char *value);
 
 
 /* -------------------------------------------*/
