@@ -729,41 +729,6 @@ END:
 	return retn;
 }
 
-/* -------------------------------------------*/
-/**
- * @brief  给指定的hash表 获取指定的field对应的value
- *
- * @param conn            已建立好的链接
- * @param key             hash表名
- * @param field            hash表下的区域名   
- * @param value            获取的field对应的值  
- *
- * @returns   
- *            0        succ
- *            -1        fail
- */
-/* -------------------------------------------*/
-int rop_hget_field_value(redisContext *conn, char *key, char *field, char *value)
-{
-	int retn = 0;
-	redisReply *reply = NULL;
-	reply = redisCommand(conn, "HGET %s %s", key, field);
-    //rop_test_reply_type(reply);
-	
-    if (reply == NULL) {
-		LOG(REDIS_LOG_MODULE, REDIS_LOG_PROC, "[-][GMS_REDIS]increment %s %s error %s\n", key, field, conn->errstr);
-        retn = -1;
-        goto END;
-    }
-	
-	strncpy(value, reply->str, reply->len);
-	value[reply->len] = '\0';
-
-END:
-	freeReplyObject(reply);
-    return retn;
-}
-
 
 /* -------------------------------------------*/
 /**
@@ -940,47 +905,6 @@ int rop_range_list(redisContext *conn, char *key, int from_pos, int end_pos, RVA
 //    rop_test_reply_type(reply);
 	if (reply->type != REDIS_REPLY_ARRAY) {
 		LOG(REDIS_LOG_MODULE, REDIS_LOG_PROC, "[-][GMS_REDIS]LRANGE %s  error!%s\n", key, conn->errstr);
-		retn = -1;
-	}
-
-
-    max_count = (reply->elements > count) ? count: reply->elements;
-    *get_num = max_count;
-
-
-    for (i = 0; i < max_count; ++i) {
-        strncpy(values[i], reply->element[i]->str, VALUES_ID_SIZE-1);
-    }
-
-	freeReplyObject(reply);
-	return retn;
-}
-
-/* -------------------------------------------*/
-/**
- * @brief          得到有序集合中的数据
- *
- * @param conn		已经建立的链接
- * @param key		集合名
- *
- * @returns   
- *			0  SUCC
- *			-1 FAIL
- */
-/* -------------------------------------------*/
-int rop_zset_range_list(redisContext *conn, char *key, int from_pos, int end_pos, RVALUES values, int *get_num)
-{
-	int retn = 0;
-    int i = 0;
-    redisReply *reply = NULL;
-    int max_count = 0;
-
-    int count = end_pos - from_pos + 1;
-
-    reply = redisCommand(conn, "ZRANGE %s %d %d", key, from_pos, end_pos);
-//    rop_test_reply_type(reply);
-	if (reply->type != REDIS_REPLY_ARRAY) {
-		LOG(REDIS_LOG_MODULE, REDIS_LOG_PROC, "[-][GMS_REDIS]ZRANGE %s  error!%s\n", key, conn->errstr);
 		retn = -1;
 	}
 

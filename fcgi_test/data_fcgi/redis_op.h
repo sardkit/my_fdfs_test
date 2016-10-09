@@ -17,7 +17,7 @@
 #define REDIS_LOG_PROC            "redis"
 
 #define REDIS_COMMAND_SIZE        300            /* redis Command 指令最大长度 */
-#define FIELD_ID_SIZE            100            /* redis hash表field域字段长度 */
+#define FIELD_ID_SIZE            128             /* redis hash表field域字段长度 */
 #define VALUES_ID_SIZE           1024            /* redis        value域字段长度 */
 typedef char (*RCOMMANDS)[REDIS_COMMAND_SIZE];/* redis 存放批量 命令字符串数组类型 */
 typedef char (*RFIELDS)[FIELD_ID_SIZE];        /* redis hash表存放批量field字符串数组类型 */

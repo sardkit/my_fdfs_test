@@ -977,10 +977,10 @@ int rop_zset_range_list(redisContext *conn, char *key, int from_pos, int end_pos
 
     int count = end_pos - from_pos + 1;
 
-    reply = redisCommand(conn, "ZRANGE %s %d %d", key, from_pos, end_pos);
+    reply = redisCommand(conn, "ZREVRANGE %s %d %d", key, from_pos, end_pos);
 //    rop_test_reply_type(reply);
 	if (reply->type != REDIS_REPLY_ARRAY) {
-		LOG(REDIS_LOG_MODULE, REDIS_LOG_PROC, "[-][GMS_REDIS]ZRANGE %s  error!%s\n", key, conn->errstr);
+		LOG(REDIS_LOG_MODULE, REDIS_LOG_PROC, "[-][GMS_REDIS]ZREVRANGE %s  error!%s\n", key, conn->errstr);
 		retn = -1;
 	}
 

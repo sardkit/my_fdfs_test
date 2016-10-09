@@ -17,7 +17,7 @@
 #define REDIS_LOG_PROC            "redis"
 
 #define REDIS_COMMAND_SIZE        300            /* redis Command 指令最大长度 */
-#define FIELD_ID_SIZE            100            /* redis hash表field域字段长度 */
+#define FIELD_ID_SIZE             128            /* redis hash表field域字段长度 */
 #define VALUES_ID_SIZE           1024            /* redis        value域字段长度 */
 typedef char (*RCOMMANDS)[REDIS_COMMAND_SIZE];/* redis 存放批量 命令字符串数组类型 */
 typedef char (*RFIELDS)[FIELD_ID_SIZE];        /* redis hash表存放批量field字符串数组类型 */
@@ -244,21 +244,6 @@ int rop_create_or_replace_hash_table(redisContext* conn,
 /* -------------------------------------------*/
 int rop_hincrement_one_field(redisContext *conn, char *key, char *field, unsigned int num);
 
-/* -------------------------------------------*/
-/**
- * @brief  给指定的hash表 获取指定的field对应的value
- *
- * @param conn            已建立好的链接
- * @param key             hash表名
- * @param field            hash表下的区域名   
- * @param value            获取的field对应的值  
- *
- * @returns   
- *            0        succ
- *            -1        fail
- */
-/* -------------------------------------------*/
-int rop_hget_field_value(redisContext *conn, char *key, char *field, char *value);
 
 /* -------------------------------------------*/
 /**
@@ -313,20 +298,6 @@ int rop_zset_get_score(redisContext *conn, char *key, char *member);
  */
 /* -------------------------------------------*/
 int rop_zset_increment_append(redisContext *conn, char *key, RVALUES values, int val_num);
-
-/* -------------------------------------------*/
-/**
- * @brief          得到有序集合中的数据
- *
- * @param conn		已经建立的链接
- * @param key		集合名
- *
- * @returns   
- *			0  SUCC
- *			-1 FAIL
- */
-/* -------------------------------------------*/
-int rop_zset_range_list(redisContext *conn, char *key, int from_pos, int end_pos, RVALUES values, int *get_num);
 
 /* -------------------------------------------*/
 /**

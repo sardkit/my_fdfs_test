@@ -6,6 +6,7 @@
 
 #include "redis_op.h"
 
+
 int main(int argc, char *argv[])
 {
     int ret = 0;
@@ -31,6 +32,25 @@ int main(int argc, char *argv[])
     }
     else {
         printf("get fail\n");
+    }
+	
+	char get_setval[8][VALUES_ID_SIZE];
+	int get_num = 0;
+	ret = rop_zset_range_list(conn, "FILE_HOT_ZSET", 0, 7, get_setval, &get_num);
+	if (ret == 0) 
+	{
+		int i = 0;
+        printf("rop_zset_range_list get succ!\n");
+		char hvalue[VALUES_ID_SIZE] = {0};
+		for(; i < get_num; i++)
+		{
+			printf("file_id: %s\n", get_setval[i]);
+			rop_hget_field_value(conn, "FILE_INFO_HASHE", get_setval[i], hvalue);
+			printf("\tget_val: %s\n", hvalue);
+		}	
+    }
+    else {
+        printf("rop_zset_range_list get fail\n");
     }
 
 
