@@ -27,7 +27,10 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	if(argc > 3)
-		printf("Too many parameters");
+    {
+        printf("Too many parameters\n, Usage: %s <config_file> <local_filename>\n", argv[0]);
+		return 1;
+    }
 
 	conf_filename = argv[1];
 	result = fdfs_client_init(conf_filename);
@@ -47,8 +50,8 @@ int main(int argc, char *argv[])
 
 	*group_name = '\0';
 	store_path_index = 0;
-	if ((result=tracker_query_storage_store(pTrackerServer, \
-					&storageServer, group_name, &store_path_index)) != 0)
+	if ((result=tracker_query_storage_store(pTrackerServer, 
+		 &storageServer, group_name, &store_path_index)) != 0)
 	{
 		fdfs_client_destroy();
 		LOG("Test01", "My_upload_file", "tracker_query_storage fail; result: %d", result);
@@ -56,9 +59,9 @@ int main(int argc, char *argv[])
 	}
 
 	local_filename = argv[2];
-	result = storage_upload_appender_by_filename1(pTrackerServer, \
-			&storageServer, store_path_index, \
-			local_filename, NULL, \
+	result = storage_upload_appender_by_filename1(pTrackerServer, 
+			&storageServer, store_path_index, 
+			local_filename, NULL, 
 			NULL, 0, group_name, file_id);
 	if (result != 0)
 	{ 
